@@ -321,7 +321,7 @@ public class EvaluationService {
 		// check if the first character in this new array is a number 2-9. ----actually does not have a test for this, do not do.
 		int len = string.length();
 		char[] unformattedPhone = new char[len];
-		char[] allowedSymbols = {'(', ')', '-', '.', '+', ' '}; // if change size of array, change for loop j< <size> below
+		char[] allowedSymbols = {'(', ')', '-', '.', '+', ' '}; 
 		char[] formattedPhoneArr = new char[10];
 		int cleanCounter = 0;
 		
@@ -369,7 +369,11 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		Map<String, Integer> map = new java.util.HashMap<String, Integer>();
+		int counter = 1;
+		
+		map.put(string, counter);
+		return map;
 	}
 
 	/**
@@ -448,12 +452,46 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		char firstLetter = string.charAt(0);
-		String s2 = "ay";
+		char letter = string.charAt(0);
+		String addPig = "ay";
 		String pigLatin = null;
+		char[] vowel = {'a', 'e', 'i', 'o', 'u'};
+		int originLen = string.length();
 		
-		if(firstLetter == 'a')
-			pigLatin = string.concat(s2);
+		// find the first vowel
+		for (int stringIndex = 0; stringIndex < originLen; stringIndex++) {
+			int position = 0;
+			String a = "", b = "";
+			boolean vowelNf = true;
+			
+			do {
+				// compare character to vowel
+				if (string.charAt(position) == vowel[0]
+						|| string.charAt(position) == vowel[1]
+						|| string.charAt(position) == vowel[2]
+						|| string.charAt(position) == vowel[3]
+						|| string.charAt(position) == vowel[4]) {
+					vowelNf = false;
+					if (position == 0) {
+						pigLatin = string.concat(addPig);
+//						System.out.println(pigLatin);
+					} else {
+						a = string.substring(0, position);
+//						System.out.println(a);
+						b = string.substring(position);
+//						System.out.println(b);
+						pigLatin = b.concat(a);
+//						System.out.println(pigLatin);
+						pigLatin = pigLatin.concat(addPig);
+//						System.out.println(pigLatin);
+					}
+				} else {
+					position++;
+					vowelNf = true;
+				}
+			} while (vowelNf);
+		}
+		
 		return pigLatin;
 	}
 
@@ -474,6 +512,19 @@ public class EvaluationService {
 	 */
 	public boolean isArmstrongNumber(int input) {
 		// TODO Write an implementation for this method declaration
+//		int numDigits = 0;
+//		
+//		System.out.println(input);
+//		while (input != 0) {
+//			System.out.println("preout: " + input);
+//			input = input/10;
+//			System.out.println("postout: " + input);
+//			++numDigits;
+//			System.out.println(numDigits);
+//		}
+		
+
+		
 		return false;
 	}
 
