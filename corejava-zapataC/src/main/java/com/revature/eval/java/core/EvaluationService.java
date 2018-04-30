@@ -214,8 +214,7 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO: would a hashSet collection be a good idea here? would need to import java.util
-		// TODO: Fix redundant code. start with getting rid of the point array.
+		// TODO: would a hashSet collection be a good idea here?
 		int len = string.length();
 		char[] charArrEquivalent = new char[len];
 		int points = 0;
@@ -317,26 +316,46 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO you will get a string, which will consist of numbers, spaces, and symbols. 
-		// will throw an exception "IllegalArguementException" when a string contains a symbol but not '(', ')', '.', '-', '+'
-		// will throw an exception "IllegalArguementException" when a string contains letters. 
-		// if there are remaining special case symbols, then remove them from the array
-		// if the first number in the array is 1, then delete it since it is the international code
-		// count how many numbers there are in the array, if the count is more than ten, then throw an "illegalArguementException"
-		// assuming it passes the initial tests, we should have 6139950253______ with null characters in some arrays.
-		// now move all numbers into a new array of size 10 so that we do not have empty characters in our array.
+		// TODO  allow some symbols but not all. 
+		// if the first number in the array is 1, then delete it since it is the international code ----not required for test
 		// check if the first character in this new array is a number 2-9. ----actually does not have a test for this, do not do.
-		// just return the new array. 
 		int len = string.length();
 		char[] unformattedPhone = new char[len];
+		char[] allowedSymbols = {'(', ')', '-', '.', '+', ' '}; // if change size of array, change for loop j< <size> below
+		char[] formattedPhoneArr = new char[10];
+		int cleanCounter = 0;
 		
-		// convert the string into an array so we can work with the characters.
 		for (int i = 0; i < len; i++) {
 			unformattedPhone[i] = string.charAt(i);
+			
+			if (!Character.isDigit(unformattedPhone[i]) ) {
+				//if you are in here, then you are a symbol or whitespace
+				if (unformattedPhone[i] != allowedSymbols[0] 
+						&& unformattedPhone[i] != allowedSymbols[1]
+						&& unformattedPhone[i] != allowedSymbols[2]
+						&& unformattedPhone[i] != allowedSymbols[3]
+						&& unformattedPhone[i] != allowedSymbols[4]
+						&& !Character.isWhitespace(unformattedPhone[i])) {
+					throw new IllegalArgumentException("Cannot use symbols unrelated to phone number.");
+				}
+			} else if (Character.isAlphabetic(unformattedPhone[i])) {
+				throw new IllegalArgumentException("No letters");
+			}
+			
+			if (Character.isDigit(unformattedPhone[i])) {
+				// insert digit into clean array
+				if (cleanCounter > 10)
+					throw new IllegalArgumentException("Too many numbers");
+				formattedPhoneArr[cleanCounter] = unformattedPhone[i];
+				cleanCounter++;
+			}
 		}
 		
+		// for testing
+		String formattedPhone = new String(formattedPhoneArr);
+//		System.out.println("Clean phone: " + formattedPhone);
 		
-		return null;
+		return formattedPhone;
 	}
 
 	/**
